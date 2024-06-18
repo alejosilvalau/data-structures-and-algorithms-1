@@ -104,3 +104,12 @@ int main() {
 
   return 0;
 }
+
+/*
+Faltan "free()", pero no se donde.
+
+==4213== HEAP SUMMARY:
+==4213==     in use at exit: 97 bytes in 6 blocks
+==4213==   total heap usage: 47 allocs, 41 frees, 1,976 bytes allocated
+
+*/

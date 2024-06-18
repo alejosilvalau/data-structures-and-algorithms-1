@@ -67,26 +67,23 @@ int tablahash_capacidad(TablaHash tabla) { return tabla->capacidad; }
 void tablahash_destruir(TablaHash tabla) {
   for (unsigned idx = 0; idx < tabla->capacidad; ++idx) {
     if (tabla->elems[idx].dato != NULL) {
-      // Cada elemento tiene que destruirse apuntando al siguiente
-      // Los elementos tienen que quedar de la forma dato == NULL and next == NULL
-      // El primer elemento se iguala en NULL en ambos campos cuando se sale del while
+      if (tabla->elems[idx].next != NULL) {
+        CasillaHash *casillaEliminar;
+        while (tabla->elems[idx].next != NULL) {
+          casillaEliminar = tabla->elems[idx].next;
+          tabla->elems[idx].next = tabla->elems[idx].next->next;
+          tabla->destr(casillaEliminar->dato);
+          free(casillaEliminar);
+        }
+        tabla->destr(tabla->elems[idx].dato);
+        tabla->elems[idx].dato = NULL;
+      }
     }
-    
-    // if (tabla->elems[idx].next != NULL) {
-    //   CasillaHash *casillaEliminar;
-    //   while (tabla->elems[idx].dato != NULL) {
-    //     casillaEliminar = &tabla->elems[idx];
-    //     tabla->elems[idx] = tabla->elems[idx].next;
-    //     tabla->destr(casillaEliminar->dato);
-    //     free(casillaEliminar);
-    //   }
-    // }
   }
   free(tabla->elems);
   free(tabla);
   return;
 }
-
 
 /**
  * Inserta un dato en la tabla, o lo reemplaza si ya se encontraba.
@@ -141,7 +138,6 @@ void *tablahash_buscar(TablaHash tabla, void *dato) {
   // En el caso que no este el dato en la lista, se retorna NULL.
   return NULL;
 }
-
 
 /**
  * Elimina el dato de la tabla que coincida con el dato dado.
