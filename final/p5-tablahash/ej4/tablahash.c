@@ -1,5 +1,6 @@
 #include "tablahash.h"
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 // gcc -Wall contacto.c tablahash.c test.c utils.c -g -o main
@@ -146,19 +147,18 @@ void tablahash_eliminar(TablaHash tabla, void *dato) {
 }
 
 void tablahash_redimensionar(TablaHash tabla) {
-  tabla->capacidad += 2;
+  tabla->capacidad *= 2;
   tabla->elems = realloc(tabla->elems, sizeof(CasillaHash) * tabla->capacidad);
   assert(tabla->elems != NULL);
 
-  for (unsigned idx = 0; idx < tabla->capacidad; idx++) {
+  for (unsigned idx = 0; idx < tabla->capacidad / 2; idx++) {
     if (tabla->elems[idx].dato != NULL) {
       CasillaHash temp = tabla->elems[idx];
       unsigned nuevoIdx = tabla->hash(temp.dato) % tabla->capacidad;
-
       while (temp.dato != NULL) {
-        CasillaHash aux = tabla->elems[nuevoIdx];
+        CasillaHash* aux = &tabla->elems[nuevoIdx];
         tabla->elems[nuevoIdx].dato = temp.dato;
-        temp.dato = aux.dato;
+        temp.dato = aux->dato;
         nuevoIdx = tabla->hash(temp.dato) % tabla->capacidad;
       }
     }
