@@ -1,2 +1,7 @@
+#Codigo ya hecho:
 https://bitbucket.org/franquito/school-code/src/master/
-Things already done!
+
+#Repositorio con solamente codigo fuente:
+
+
+

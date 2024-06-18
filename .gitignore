@@ -1,0 +1,28 @@
+# Ignore all files
+*
+
+# Unignore all directories
+!*/
+
+# Unignore all files with an extension
+!*.*
+
+
+# Ignore this specific formats
+*.pdf
+*.exe
+*.blob
+*.1619
+*.png
+*makefile
+*.vscode
+*.out
+*vgcore*
+*.o
+*.replit
+*.nix
+*.breakpoints
+*.sqlite*
+*.json
+*.stamp
+*.res

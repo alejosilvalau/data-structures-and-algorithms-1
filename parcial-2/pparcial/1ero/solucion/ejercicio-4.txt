@@ -1,0 +1,67 @@
+
+// Ejercicio 4:
+
+typedef void (*FuncionVisitanteExtra)(int, void*);
+
+static void no_destruir_data(void *data) { return; }
+static void *no_copia_data(void *data) { return data; }
+
+void btree_foreach(BTree root, FuncionVisitanteExtra visit, void *extra) {
+  Cola cola = cola_crear();
+
+  if (root != NULL) {
+    cola = cola_encolar(cola, root, no_copia_data);
+  } else {
+    return;
+  }
+  int profundidad = 0;
+
+  while (!cola_es_vacia(cola)) {
+    int cantNodosProfundidadActual = cola_longitud(cola);
+    int profundidadActual = 0;
+    
+    while (profundidadActual < cantNodosProfundidadActual) {
+      BTree actual = cola_inicio(cola);
+      cola = cola_desencolar(cola, no_destruir_data);
+
+      visit(actual->dato, (int*)extra);
+
+      if (actual->left != NULL) {
+        cola = cola_encolar(cola, actual->left, no_copia_data);
+      }
+      if (actual->right != NULL) {
+        cola = cola_encolar(cola, actual->right, no_copia_data);
+      }
+      profundidadActual++;
+    }
+    profundidad++;
+  }
+
+  cola_destruir(cola, no_destruir_data);
+}
+
+void imprime_compara(int dato, int *extra) {
+  printf("Dato: %d\n", dato);
+  if (dato > *extra) {
+    *extra = dato;
+  }
+}
+
+int main() {
+  BTree ll = btree_unir(1, btree_crear(), btree_crear());
+  BTree l = btree_unir(2, ll, btree_crear());
+  BTree r = btree_unir(3, btree_crear(), btree_crear());
+  BTree raiz = btree_unir(4, l, r);
+  puts("");
+  printf("Arbol:\n");
+  int minDato = 0;
+  printf("Maximo pre arbol: %d\n", minDato);
+  btree_foreach(raiz, (FuncionVisitanteExtra) imprime_compara, &minDato);
+  puts("");
+  printf("Maximo post arbol: %d\n", minDato);
+  puts("");
+  btree_destruir(raiz);
+  return 0;
+}
+
+// TDLR: Si se puede :)
