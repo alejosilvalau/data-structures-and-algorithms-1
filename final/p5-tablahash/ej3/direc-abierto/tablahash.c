@@ -35,12 +35,13 @@ unsigned linear_probing(TablaHash tabla, void* dato) {
   
   unsigned corrimiento = 1;
   unsigned idxOriginal = idx;
+  idx = (tabla->hash(dato) + corrimiento) % tabla->capacidad;
   while (idxOriginal != idx && tabla->elems[idx].dato != NULL) {
-    corrimiento++;
-    idx = (tabla->hash(dato) + corrimiento) % tabla->capacidad;
     if (tabla->elems[idx].dato != NULL && tabla->comp(tabla->elems[idx].dato, dato) == 0) {
       return idx;
     }
+    corrimiento++;
+    idx = (tabla->hash(dato) + corrimiento) % tabla->capacidad;
   }
   
   return idx;
