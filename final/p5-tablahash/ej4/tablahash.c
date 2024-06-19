@@ -1,4 +1,5 @@
 #include "tablahash.h"
+#include "utils.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -179,5 +180,15 @@ void tablahash_redimensionar(TablaHash tabla) {
         }
       }
     }
+  }
+}
+
+void impresion_tablahash(TablaHash tabla, FuncionVisitante visit) {
+  for (unsigned idx = 0; idx < tabla->capacidad; ++idx) {
+    if (tabla->elems[idx].dato != NULL) {
+      visit(tabla->elems[idx].dato);
+      puts("");
+    } else
+      printf("NULL\n");
   }
 }

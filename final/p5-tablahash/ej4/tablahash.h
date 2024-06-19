@@ -10,6 +10,8 @@ typedef void (*FuncionDestructora)(void *dato);
 /** Libera la memoria alocada para el dato */
 typedef unsigned (*FuncionHash)(void *dato);
 /** Retorna un entero sin signo para el dato */
+typedef void (*FuncionVisitante)(void *dato);
+/** Imprime la tabla en la terminal */
 
 typedef struct _TablaHash *TablaHash;
 
@@ -55,6 +57,11 @@ void tablahash_eliminar(TablaHash tabla, void *dato);
  * Duplica la capacidad de la tabla hash, reposionando todos los elementos.
  */
 void tablahash_redimensionar(TablaHash tabla);
+
+/**
+ * Imprime los elementos de la tabla hash en terminal
+ */
+void impresion_tablahash(TablaHash tabla, FuncionVisitante visit);
 
 
 #endif /* __TABLAHASH_H__ */

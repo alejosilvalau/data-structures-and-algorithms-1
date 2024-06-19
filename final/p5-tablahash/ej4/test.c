@@ -1,5 +1,6 @@
 #include "contacto.h"
 #include "tablahash.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,6 +43,11 @@ int main() {
       printf("\tInsercion exitosa, con hash: %u\n", contacto_heashear(agenda[i]));
   }
 
+  puts("");
+  printf("Contenido de la tabla:\n");
+  impresion_tablahash(tabla, (FuncionVisitante)contacto_imprimir);
+  puts("");
+
   printf("Rehash:\n");
   tablahash_redimensionar(tabla);
   for (int i = 0; i < 6; ++i) {
@@ -51,6 +57,11 @@ int main() {
            contacto_heashear(agenda[i]) % tablahash_capacidad(tabla));
   }
 
+  puts("");
+  printf("Nuevo Contenido de la tabla:\n");
+  impresion_tablahash(tabla, (FuncionVisitante)contacto_imprimir);
+  puts("");
+  
   // Liberar memoria
   tablahash_destruir(tabla);
   for (int i = 0; i < 6; ++i)

@@ -7,4 +7,6 @@
  */
 unsigned KRHash(char *s);
 
+
+
 #endif /** __UTILS_H__ */
