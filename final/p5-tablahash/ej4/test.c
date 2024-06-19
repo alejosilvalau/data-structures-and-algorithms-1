@@ -39,7 +39,7 @@ int main() {
     if (tablahash_nelems(tabla) == nElems)
       printf("\tInsercion fallida: Colision.\n");
     else
-      printf("\tInsercion exitosa.\n");
+      printf("\tInsercion exitosa, con hash: %u\n", contacto_heashear(agenda[i]));
   }
 
   printf("Rehash:\n");

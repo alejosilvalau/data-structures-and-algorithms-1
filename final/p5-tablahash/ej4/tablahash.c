@@ -146,20 +146,32 @@ void tablahash_eliminar(TablaHash tabla, void *dato) {
   }
 }
 
+
 void tablahash_redimensionar(TablaHash tabla) {
+  // Duplicamos la capacidad de la tabla.
   tabla->capacidad *= 2;
   tabla->elems = realloc(tabla->elems, sizeof(CasillaHash) * tabla->capacidad);
   assert(tabla->elems != NULL);
+  
+  // Inicializamos los datos
+  for (unsigned idx = tabla->capacidad / 2; idx < tabla->capacidad; ++idx) {
+    tabla->elems[idx].dato = NULL;
+  }
 
+  // Reacomodamos los elementos que ya existian en la tabla
   for (unsigned idx = 0; idx < tabla->capacidad / 2; idx++) {
+    
     if (tabla->elems[idx].dato != NULL) {
-      CasillaHash temp = tabla->elems[idx];
-      unsigned nuevoIdx = tabla->hash(temp.dato) % tabla->capacidad;
-      while (temp.dato != NULL) {
-        CasillaHash* aux = &tabla->elems[nuevoIdx];
-        tabla->elems[nuevoIdx].dato = temp.dato;
-        temp.dato = aux->dato;
-        nuevoIdx = tabla->hash(temp.dato) % tabla->capacidad;
+      CasillaHash* temp;
+      temp->dato = tabla->copia(tabla->elems[idx].dato);
+      unsigned nuevoIdx = tabla->hash(temp->dato) % tabla->capacidad;
+      
+      while (temp->dato != NULL) {
+        CasillaHash* aux; 
+        aux->dato = tabla->copia(tabla->elems[nuevoIdx].dato);
+        tabla->elems[nuevoIdx].dato = tabla->copia(temp->dato);
+        temp->dato = tabla->copia(aux->dato);
+        nuevoIdx = tabla->hash(temp->dato) % tabla->capacidad;
       }
     }
   }
