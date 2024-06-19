@@ -1,9 +1,11 @@
 #include "contacto.h"
 #include "tablahash.h"
-
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+// gcc -Wall contacto.c tablahash.c test.c utils.c -g -o main
+// valgrind ./main
 
 #define CAPACIDAD_INICIAL 11
 /** Capacidad inicial para la tabla hash */
@@ -40,32 +42,65 @@ int main() {
     if (tablahash_nelems(tabla) == nElems)
       printf("\tInsercion fallida: Colision.\n");
     else
-      printf("\tInsercion exitosa, con hash: %u\n", contacto_heashear(agenda[i]));
+      printf("\tInsercion exitosa.\n");
   }
 
-  puts("");
-  printf("Contenido de la tabla:\n");
-  impresion_tablahash(tabla, (FuncionVisitante)contacto_imprimir);
-  puts("");
-
-  printf("Rehash:\n");
-  tablahash_redimensionar(tabla);
+  // Buscar
+  printf("\nBusqueda:\n");
   for (int i = 0; i < 6; ++i) {
-    printf("El contacto: ");
+    printf("Buscando el contacto: ");
     contacto_imprimir(agenda[i]);
-    printf(" esta en la casilla %d.\n",
-           contacto_heashear(agenda[i]) % tablahash_capacidad(tabla));
+    puts("");
+    Contacto *ret = tablahash_buscar(tabla, agenda[i]);
+    if (ret != NULL)
+      printf("\tSe encuentra en la tabla.\n");
+    else
+      printf("\tNo se encuentra en la tabla.\n");
   }
 
+  // Eliminar
+  printf("\nEliminacion:\n");
+  for (int i = 5; i > 2; --i) {
+    printf("Eliminando el contacto: ");
+    contacto_imprimir(agenda[i]);
+    puts("");
+    tablahash_eliminar(tabla, agenda[i]);
+  }
+
+  // Buscar
+  printf("\nBusqueda:\n");
+  for (int i = 0; i < 6; ++i) {
+    printf("Buscando el contacto: ");
+    contacto_imprimir(agenda[i]);
+    puts("");
+    Contacto *ret = tablahash_buscar(tabla, agenda[i]);
+    if (ret != NULL)
+      printf("\tSe encuentra en la tabla.\n");
+    else
+      printf("\tNo se encuentra en la tabla.\n");
+  }
+
+  // Sobrescribir un contacto
+  Contacto *nuevoContacto = contacto_crear("Pepe Argento", "3410000000", 71);
+  printf("\nSobrescribiendo el contacto: ");
+  contacto_imprimir(agenda[0]);
+  printf("\n\tpor: ");
+  contacto_imprimir(nuevoContacto);
   puts("");
-  printf("Nuevo Contenido de la tabla:\n");
-  impresion_tablahash(tabla, (FuncionVisitante)contacto_imprimir);
+  tablahash_insertar(tabla, nuevoContacto);
+  // Chequeamos que se haya sobrescrito
+  Contacto *ret = tablahash_buscar(
+      tabla, agenda[0]); // Es equivalente a buscar nuevoContacto porque se
+                         // compara por nombre
+  printf("El nuevo contacto es: ");
+  contacto_imprimir(ret);
   puts("");
-  
+
   // Liberar memoria
   tablahash_destruir(tabla);
   for (int i = 0; i < 6; ++i)
     contacto_destruir(agenda[i]);
+  contacto_destruir(nuevoContacto);
 
   return 0;
 }
