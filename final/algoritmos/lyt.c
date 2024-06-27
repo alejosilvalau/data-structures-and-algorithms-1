@@ -40,7 +40,7 @@ int main(){
   lista = slist_agregar_final(lista, 7);
 
 
-  //res = hay_ciclo(lista);
+
 
   res = lyt(lista);
 
