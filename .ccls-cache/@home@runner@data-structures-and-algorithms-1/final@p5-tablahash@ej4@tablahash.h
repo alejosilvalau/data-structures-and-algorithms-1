@@ -64,4 +64,6 @@ void tablahash_redimensionar(TablaHash tabla);
 void impresion_tablahash(TablaHash tabla, FuncionVisitante visit);
 
 
+
+
 #endif /* __TABLAHASH_H__ */

@@ -10,8 +10,8 @@ int main(void)
 
     int result;
 
-    x = 602190259;
-    y = 11;
+    x = 237;
+    y = 10;
     // using modulo operator
     result = x % y;
     printf("%d\n", result);

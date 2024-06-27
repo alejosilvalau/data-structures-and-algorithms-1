@@ -85,6 +85,13 @@ void tablahash_destruir(TablaHash tabla) {
  * IMPORTANTE: La implementacion no maneja colisiones.
  */
 void tablahash_insertar(TablaHash tabla, void *dato) {
+  float factorCarga = (float)tabla->numElems / tabla->capacidad;
+  float maximaCarga = 0.7;
+  printf("\nfactorCarga: %f\n", factorCarga);
+  if (factorCarga > maximaCarga) {
+    printf("\nRedimensionando la tabla.\n");
+    tablahash_redimensionar(tabla);
+  }
 
   // Calculamos la posicion del dato dado, de acuerdo a la funcion hash.
   unsigned idx = tabla->hash(dato) % tabla->capacidad;
@@ -177,8 +184,10 @@ void tablahash_redimensionar(TablaHash tabla) {
           tabla->elems[nuevoIdx].dato = tabla->copia(temp->dato);
           temp->dato = tabla->copia(aux->dato);
           nuevoIdx = tabla->hash(temp->dato) % tabla->capacidad;
+          free(aux);
         }
       }
+      free(temp);
     }
   }
 }
