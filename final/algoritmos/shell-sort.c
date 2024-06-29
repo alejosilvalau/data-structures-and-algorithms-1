@@ -27,7 +27,7 @@ void printArray(int array[], int size) {
 
 // Driver code
 int main() {
-  int data[] = {9, 8, 3, 7, 5, 6, 4, 1};
+  int data[] = {2, 4, 16, 14, 256, 25, 46, 1, 61, 80};
   int size = sizeof(data) / sizeof(data[0]);
   shellSort(data, size);
   printf("Sorted array: \n");
