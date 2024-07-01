@@ -26,4 +26,20 @@ Usuario *usuario_copiar(Usuario *u);
 */
 unsigned usuario_hashear(Usuario *u);
 
+/**
+* Retorna 0 si son iguales, entero positivo si el primero es mayor. 
+* Entero negativo en caso que el segundo sea mayor
+*/
+int usuario_comparar_tiempo(Usuario *u1, Usuario *u2);
+
+/**
+* Destruye el usuario dado por parametros.
+*/
+void usuario_destruir(Usuario *u);
+
+/**
+* Imprime el usuario pasado.
+*/
+void usuario_imprimir(Usuario *u);
+
 #endif /* __USUARIO_H__ */

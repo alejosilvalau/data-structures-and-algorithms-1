@@ -1,11 +1,12 @@
 #include "usuario.h"
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 /**
-* Funcion hash para strings
-*/
+ * Funcion hash para strings
+ */
 static unsigned KRHash(char *s) {
   unsigned hashval;
   for (hashval = 0; *s != '\0'; s++) {
@@ -37,3 +38,14 @@ Usuario *usuario_copiar(Usuario *u) {
 }
 
 unsigned usuario_hashear(Usuario *u) { return KRHash(u->dni); }
+
+int usuario_comparar_tiempo(Usuario *u1, Usuario *u2) {
+  return u1->tiempo - u2->tiempo;
+}
+
+void usuario_destruir(Usuario *u) {
+  free(u->dni);
+  free(u);
+}
+
+void usuario_imprimir(Usuario *u) { printf("{%s, %d} \n", u->dni, u->tiempo); }

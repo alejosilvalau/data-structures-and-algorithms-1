@@ -12,15 +12,15 @@ typedef struct {
   CasillaHash *elems;
   unsigned capacidad;
   FuncionHashear hashear;
-  FunctionCopiar copiar;
-  FunctionComparar comparar;
+  FuncionCopiar copiar;
+  FuncionComparar comparar;
 } TablaHash;
 
 /**
 * Crea una nueva tabla.
 */
 TablaHash *tablahash_crear(unsigned capacidad, FuncionHashear hashear,
- FunctionCopiar copiar, FunctionComparar comparar);
+ FuncionCopiar copiar, FuncionComparar comparar);
 
 /**
 * Inserta un nuevo dato en la tabla.
